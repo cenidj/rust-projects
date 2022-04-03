@@ -1,7 +1,5 @@
 fn main() {
-    let mut x = 12;
-    println!("The value of x is: {}", x);
+    const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
-    x = 3;
-    println!("The value of x is: {}", x);
+    println!("{}", THREE_HOURS_IN_SECONDS);
 }

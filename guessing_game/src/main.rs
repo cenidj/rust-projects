@@ -1,17 +1,36 @@
 use std::io; /* std is the standard library and io input/output library */
 // checkout the doc to know more about std => https://doc.rust-lang.org/std/prelude/index.html
+use rand::Rng; /* rand is the random number library and Rng is the random number generator */
+use std::cmp::Ordering; /* cmp is the comparison library */
 
 fn main() {
     println!("Guess the number");
 
-    println!("Please input your guess");
+    let secret_number = rand::thread_rng().gen_range(1..101);
 
-    let mut guess = String::new(); // Declare a mutable variable to stored the user input
+    loop {
+        println!("Please input your guess: ");
 
-    // Read the user input and store it in the guess variable
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+        let mut guess = String::new(); // Declare a mutable variable to stored the user input
 
-    println!("You guessed: {}", guess); // {} is a placeholder for the parameter, I can also use numbers or names to identify the parameters
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        println!("You guessed: {}", guess);
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
 }
